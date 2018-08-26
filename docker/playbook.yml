@@ -1,38 +1,38 @@
 - hosts: targets
   become: yes
   tasks:
-    - name: remove "docker docker-engine docker.io" packages
-      apt: 
-        name={{ item }}
-        state=absent
-      with_items:
-        - docker
-        - docker-engine
-        - docker.io
-    - name: update apt repository
-      apt:
-        update_cache: yes
-    - name: install "apt-transport-https ca-certificates curl software-properties-common" packages
-      apt:
-        name: "{{ item }}"
-        state: present
-      with_items:
-        - apt-transport-https
-        - ca-certificates
-        - curl
-        - software-properties-common
-    - name: add docker's official GPG key
-      apt_key:
-        url: https://download.docker.com/linux/ubuntu/gpg
-        state: present
-    - name: add docker repository
-      apt_repository:
-        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable
-        state: present
-    - name: update apt repository
-      apt:
-        update_cache: yes
-    - name: install docker-ce
-      apt:
-        name: docker-ce
-        state: present
+      - name: remove "docker docker-engine docker.io" packages
+        apt: 
+            name: "{{ item }}"
+            state: absent
+        with_items:
+            - docker
+            - docker-engine
+            - docker.io
+      - name: update apt repository
+        apt:
+            update_cache: yes
+      - name: install "apt-transport-https ca-certificates curl software-properties-common" packages
+        apt:
+            name: "{{ item }}"
+            state: present
+        with_items:
+            - apt-transport-https
+            - ca-certificates
+            - curl
+            - software-properties-common
+      - name: add docker's official GPG key
+        apt_key:
+            url: https://download.docker.com/linux/ubuntu/gpg
+            state: present
+      - name: add docker repository
+        apt_repository:
+            repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable
+            state: present
+      - name: update apt repository
+        apt:
+            update_cache: yes
+      - name: install docker-ce
+        apt:
+            name: docker-ce
+            state: present
