@@ -1,5 +1,4 @@
 - hosts: targets
-        ://download.docker.com/linux/ubuntu/gpg 
   become: yes
   tasks:
     - name: remove "docker docker-engine docker.io" packages
