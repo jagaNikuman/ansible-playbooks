@@ -1,0 +1,33 @@
+- hosts: targets
+  become: yes
+  vars_prompt:
+    - name: 'username'
+      prompt: 'Please enter username'
+      private: 'no'
+      default: 'ubuntu'
+    - name: 'address'
+      prompt: 'Please enter ip address'
+      private: 'no'
+      default: '10.200.0.200'
+  tasks:
+    - name: change ipaddress
+      lineinfile:
+        dest=/etc/network/interfaces
+        state=present
+        backrefs=yes
+        regexp='^(.*(address)).*$'
+        line='\taddress {{address}}'
+    - name: change hostname
+      lineinfile:
+        dest='/etc/hostname'
+        state=present
+        backrefs=yes
+        regexp='^.*?$'
+        line={{username}}
+    - name: change hosts
+      lineinfile:
+        dest='/etc/hosts'
+        state=present
+        backrefs=yes
+        regexp='^(?!.*(127\.0\.0\.1|::|#|^\n)).*$'
+        line='{{address}}\t{{username}}'
